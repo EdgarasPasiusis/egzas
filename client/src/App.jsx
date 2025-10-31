@@ -6,6 +6,11 @@ import HomePage from "./components/pages/HomePage";
 import { UserContextProvider } from "./contexts/UserContext";
 import BookDetail from "./components/pages/BookDetail";
 import ReservationsPage from "./components/pages/ReservationsPage";
+import AdminPanelPage from "./components/pages/AdminPanel";
+import UserManagmentPage from "./components/pages/UserManagmentPage";
+import BookManagmentPage from "./components/pages/bookManagmentPage";
+import GenresManagmentPage from "./components/pages/GenresManagmentPage";
+import ReservationManagmentPage from "./components/pages/ReservationManagmentPage";
 
 function App() {
   return (
@@ -19,6 +24,11 @@ function App() {
             <Route path="/auth/signup" element={<SignupForm />} />
             <Route path="/books/:id" element={<BookDetail />} />
             <Route path="/reservations" element={<ReservationsPage />} />
+            <Route path="/admin" element={<AdminPanelPage />} />
+            <Route path="/admin/users" element={<UserManagmentPage />} />
+            <Route path="/admin/books" element={<BookManagmentPage />} />
+            <Route path="/admin/genres" element={<GenresManagmentPage />} />
+            <Route path="/admin/reservations" element={<ReservationManagmentPage />} />
           </Routes>
         </main>
       </div>
