@@ -3,6 +3,8 @@ const authRoutes = require('./routes/authRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const genreRoutes = require('./routes/genreRoutes');
 const reservationRoutes = require('./routes/reservationRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const userRoutes = require('./routes/userRoutes');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
@@ -26,5 +28,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/books', bookRoutes);
 app.use('/api/v1/genres', genreRoutes);
 app.use('/api/v1/reservations', reservationRoutes);
+app.use('/api/v1/reviews', reviewRoutes);
+app.use('/api/v1/users', userRoutes);
 
 module.exports = app;
