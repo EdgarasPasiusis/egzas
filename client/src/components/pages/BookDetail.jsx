@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../../contexts/UserContext";
-import ReviewsSection from "../ReviewsSection";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../datepicker.css";
@@ -19,6 +18,10 @@ const BookDetail = () => {
   const [reservation, setReservation] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [endDate, setEndDate] = useState(new Date());
+
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [ratingMessage, setRatingMessage] = useState("");
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -71,6 +74,7 @@ const BookDetail = () => {
       setError(err.response?.data?.message || "Reservation failed.");
     }
   };
+
   const handleExtend = async () => {
     if (!reservation) return;
 
@@ -91,6 +95,43 @@ const BookDetail = () => {
       setReservation(res.data.data);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to extend reservation.");
+    }
+  };
+
+  useEffect(() => {
+    const fetchUserRating = async () => {
+      if (!user) return;
+      try {
+        const res = await axios.get(`${API_URL}/reviews/book/${id}/user`, {
+          withCredentials: true,
+        });
+        if (res.data?.data?.rating) {
+          setRating(res.data.data.rating);
+          setRatingMessage(
+            `Your rating for this book: ${res.data.data.rating} ★`
+          );
+        }
+      } catch {
+        //
+      }
+    };
+    fetchUserRating();
+  }, [id, user]);
+
+  const handleRating = async (value) => {
+    setRating(value);
+    setRatingMessage("");
+    try {
+      await axios.post(
+        `${API_URL}/reviews/book/${id}`,
+        { rating: value },
+        { withCredentials: true }
+      );
+      setRatingMessage("Thank you for rating!");
+    } catch (err) {
+      setRatingMessage(
+        err.response?.data?.message || "Failed to submit rating."
+      );
     }
   };
 
@@ -216,16 +257,41 @@ const BookDetail = () => {
                       </button>
                     </div>
                   )}
-
-                  {!showDatePicker}
                 </>
               )}
             </div>
           </div>
         </div>
-        <div className="mt-8">
-          <ReviewsSection bookId={id} />
-        </div>
+        {user && (
+          <div className="bg-[#2a2727] mt-8 p-6 rounded-lg shadow-md text-center">
+            <h3 className="text-xl font-bold mb-3">
+              {rating > 0 ? "Your rating for this book" : "Rate this book"}
+            </h3>
+            <div className="flex justify-center items-center mb-3">
+              {[...Array(5)].map((_, index) => {
+                const starValue = index + 1;
+                return (
+                  <span
+                    key={starValue}
+                    className={`text-4xl cursor-pointer transition-colors ${
+                      starValue <= (hoverRating || rating)
+                        ? "text-yellow-500"
+                        : "text-gray-600"
+                    }`}
+                    onClick={() => handleRating(starValue)}
+                    onMouseEnter={() => setHoverRating(starValue)}
+                    onMouseLeave={() => setHoverRating(0)}
+                  >
+                    ★
+                  </span>
+                );
+              })}
+            </div>
+            {ratingMessage && (
+              <p className="text-cyan-400 font-medium">{ratingMessage}</p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
