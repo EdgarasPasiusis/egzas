@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const BooksGrid = () => {
+const BooksGrid = ({ selectedGenre }) => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,6 +15,7 @@ const BooksGrid = () => {
     const fetchBooks = async () => {
       try {
         const res = await axios.get(`${API_URL}/books`);
+
         setBooks(res.data.tours || []);
         setError(null);
       } catch (err) {
@@ -27,6 +28,13 @@ const BooksGrid = () => {
     fetchBooks();
   }, []);
 
+  const filteredBooks =
+    selectedGenre === "All Books"
+      ? books
+      : books.filter(
+          (book) => book.genre?.toLowerCase() === selectedGenre?.toLowerCase()
+        );
+
   if (loading) {
     return <p className="text-center text-gray-400">Loading...</p>;
   }
@@ -38,11 +46,11 @@ const BooksGrid = () => {
           {error}
         </div>
       )}
-      {books.length === 0 ? (
+      {filteredBooks.length === 0 ? (
         <p className="text-center text-gray-400">No books found</p>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          {books.map((book, idx) => (
+          {filteredBooks.map((book, idx) => (
             <div
               key={`${book.id}-${idx}`}
               className="bg-[#2a2727] rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 cursor-pointer"

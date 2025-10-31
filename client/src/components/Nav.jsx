@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import Logout from "./Logout";
 import { useContext, useState, useEffect, useRef } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { Search, Heart, ShoppingCart } from "lucide-react";
+import { Search, Heart } from "lucide-react";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -104,7 +104,8 @@ const Nav = () => {
                       onClick={() => setShowDropdown(false)}
                       className="block px-4 py-2 text-gray-200 hover:bg-gray-700"
                     >
-                      {book.title} – <span className="text-gray-400">{book.author}</span>
+                      {book.title} –{" "}
+                      <span className="text-gray-400">{book.author}</span>
                     </NavLink>
                   ))
                 )}
@@ -139,16 +140,10 @@ const Nav = () => {
                 </NavLink>
               )}
               <NavLink
-                to="/favorites"
-                className="h-5 w-5 cursor-pointer hover:text-gray-300"
-              >
-                <Heart className="h-5 w-5 cursor-pointer hover:text-gray-300" />
-              </NavLink>
-                            <NavLink
                 to="/reservations"
                 className="h-5 w-5 cursor-pointer hover:text-gray-300"
               >
-                <ShoppingCart className="h-5 w-5 cursor-pointer hover:text-gray-300" />
+                <Heart className="h-5 w-5 cursor-pointer hover:text-gray-300" />
               </NavLink>
               <Logout />
             </>
