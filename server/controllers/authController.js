@@ -52,6 +52,7 @@ exports.signup = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -78,6 +79,7 @@ exports.login = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 

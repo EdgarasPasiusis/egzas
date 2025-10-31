@@ -5,7 +5,7 @@ const {
   getReservationByUserAndBook,
   getReservationsByUser,
   searchReservations,
-  returnReservation
+  returnReservation,
 } = require("../models/reservationModel");
 const { validationResult } = require("express-validator");
 
@@ -24,12 +24,11 @@ exports.createReservation = async (req, res) => {
     });
 
     res.status(201).json({ status: "success", data: reservation });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
-
 
 exports.extendReservation = async (req, res) => {
   try {
@@ -39,9 +38,9 @@ exports.extendReservation = async (req, res) => {
     const updated = await extendReservation(userId, bookId, newEndDate);
 
     res.status(200).json({ status: "success", data: updated });
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ message: err.message });
+  } catch (error) {
+    next(error);
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -68,9 +67,9 @@ exports.getReservationByUserAndBook = async (req, res) => {
       status: "success",
       data: reservation,
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -83,9 +82,9 @@ exports.getMyReservations = async (req, res) => {
       status: "success",
       data: reservations,
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -102,9 +101,9 @@ exports.returnReservation = async (req, res) => {
       status: "success",
       data: updated,
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -117,8 +116,8 @@ exports.searchReservations = async (req, res) => {
       status: "success",
       data: reservations,
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    next(error);
+    res.status(500).json({ message: error.message });
   }
 };

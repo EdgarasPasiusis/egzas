@@ -4,7 +4,7 @@ const {
   updateUser,
   deleteUser,
   searchUsers,
-  getUserByID
+  getUserByID,
 } = require("../models/userModel");
 const argon2 = require("argon2");
 const AppError = require("../utils/AppError");
@@ -20,6 +20,7 @@ exports.getAllUsers = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -49,6 +50,7 @@ exports.createUser = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -73,6 +75,7 @@ exports.updateUser = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -91,6 +94,7 @@ exports.deleteUser = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -99,9 +103,9 @@ exports.searchUsers = async (req, res) => {
     const { email } = req.query;
     const users = await searchUsers({ email });
     res.json(users);
-  } catch (err) {
-    console.error("error", err);
-    res.status(500).json({ error: "server error" });
+  } catch (error) {
+    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -121,5 +125,6 @@ exports.getUserByID = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };

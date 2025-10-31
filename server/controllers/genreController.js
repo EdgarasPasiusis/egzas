@@ -24,6 +24,7 @@ exports.postGenre = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -42,6 +43,7 @@ exports.deleteGenre = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -66,6 +68,7 @@ exports.updateGenre = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -78,5 +81,6 @@ exports.getAllGenres = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };

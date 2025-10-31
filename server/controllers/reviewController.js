@@ -28,7 +28,8 @@ exports.postReview = async (req, res, next) => {
       data: review,
     });
   } catch (error) {
-    next(error);
+    next(error)
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -46,9 +47,9 @@ exports.getUserReview = async (req, res) => {
       message: 'User rating found.',
       data: review,
     });
-  } catch (err) {
-    console.error('getUserReview error:', err);
-    res.status(500).json({ message: 'Failed to retrieve rating.' });
+  } catch (error) {
+    next(error)
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -72,7 +73,8 @@ exports.updateReview = async (req, res, next) => {
       data: updatedReview,
     });
   } catch (error) {
-    next(error);
+    next(error)
+    res.status(500).json({ message: error.message });
   }
 };
 

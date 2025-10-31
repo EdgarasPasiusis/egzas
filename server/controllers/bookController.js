@@ -4,7 +4,7 @@ const {
   updateBook,
   getAllBooks,
   getBookByID,
-  searchAndFilterBooks
+  searchAndFilterBooks,
 } = require("../models/bookModel");
 const { validationResult } = require("express-validator");
 const AppError = require("../utils/AppError");
@@ -26,6 +26,7 @@ exports.postBook = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -44,6 +45,7 @@ exports.deleteBook = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -68,6 +70,7 @@ exports.updateBook = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -80,6 +83,7 @@ exports.getAllBooks = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -99,6 +103,7 @@ exports.getBookByID = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -122,7 +127,7 @@ exports.searchBook = async (req, res, next) => {
       data: Array.isArray(books) ? books : [],
     });
   } catch (error) {
-    console.error("Error in searchBooks:", error.message);
     next(error);
+    res.status(500).json({ message: error.message });
   }
 };

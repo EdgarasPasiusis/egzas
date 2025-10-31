@@ -10,15 +10,29 @@ const {
 } = require("../controllers/userController");
 const restrictToAdmin = require("../middleware/restrictToAdmin");
 const { protect } = require("../controllers/authController");
+const handleValidationErrors = require("../validators/validationResult");
+const { validateSignup } = require("../validators/signup");
 
 router.route("/search").get(protect, restrictToAdmin, searchUsers);
 router
   .route("/")
   .get(protect, restrictToAdmin, getAllUsers)
-  .post(protect, restrictToAdmin, createUser);
+  .post(
+    validateSignup,
+    handleValidationErrors,
+    protect,
+    restrictToAdmin,
+    createUser
+  );
 router
   .route("/:id")
-  .put(protect, restrictToAdmin, updateUser)
+  .put(
+    validateSignup,
+    handleValidationErrors,
+    protect,
+    restrictToAdmin,
+    updateUser
+  )
   .delete(protect, restrictToAdmin, deleteUser)
   .get(protect, restrictToAdmin, getUserByID);
 
